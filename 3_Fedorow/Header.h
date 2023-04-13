@@ -142,7 +142,7 @@ void add(Uzond*& program, short* size, short* size_of_peopl, vector<string> arr_
 char* strstr_lower(char* str_a, char* str_b);
 int rand_data(string sex);								/// от 0 до 9 муж. от 10 до 19 жен
 string rand_data(int max);
-//Uzond* sort(Uzond* program, short size, short size_of_peopl);
+void sort(Uzond*& program, short size, short size_of_peopl);
 bool isalpha_r(unsigned char a);
 bool isdigit_r(unsigned char a);
 vector<char> stringToArrChar(const string& str);

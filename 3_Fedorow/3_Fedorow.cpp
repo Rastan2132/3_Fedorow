@@ -44,7 +44,7 @@ int main()
 				edit(program, urz_num - 1, p_num - 1);
 			break;
 		case (115):
-			//	sort(program, size, size_of_peopl);
+				sort(program, size, size_of_peopl);
 			break;
 		case (121):
 			//	find(program, size, size_of_peopl);
