@@ -146,8 +146,8 @@ string rand_data(int max);
 bool isalpha_r(unsigned char a);
 bool isdigit_r(unsigned char a);
 vector<char> stringToArrChar(const string& str);
-//Uzond* edit(Uzond* program, short index_1, short index_2);
-//Uzond* dell(Uzond* program, short* size, short* size_of_peopl);
+void edit(Uzond*& program, short index_1, short index_2);
+void dell(Uzond*& program, short* size, short* size_of_people);
 
 
 COORD getCursorPosition(void);

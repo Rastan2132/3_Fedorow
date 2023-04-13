@@ -175,3 +175,137 @@ void add(Uzond*& program, short* size, short* size_of_peopl, vector<string> arr_
 		break;
 	}
 }
+void dell(Uzond*& program, short* size, short* size_of_people)
+{
+	cout << "Usunąć użytkownika lub użytkownika? (u lub o)" << endl;
+	switch (_getch()) {
+	case (117):
+	{
+		if (*size <= 0) {
+			error();
+		}
+		cout << "Wybierz numer Uzond, który chcesz usunąć (1 - " << *size << "):" << endl;
+		int num = 0;
+		cin >> num;
+		if (num < 1 || num > *size) {
+			error();
+		}
+
+		(*size)--;
+		Uzond* program_n = new Uzond[*size];
+		for (int i = 0, j = 0; i < *size + 1; i++) {
+			if (i != num - 1) {
+				program_n[j] = program[i];
+				j++;
+			}
+		}
+		delete[] program[num - 1].getPeople();
+		program = program_n;
+		break;
+	}
+
+	case (111):
+	{
+		if (*size_of_people <= 0) {
+			error();
+		}
+
+		cout << "Wybierz numer użytkownika, którego chcesz usunąć(1 - " << *size_of_people << "):" << endl;
+		int num = 0;
+		cin >> num;
+		if (num < 1 || num > *size_of_people) {
+			error();
+		}
+
+		for (int i = 0; i < *size; i++) {
+			Users** new_people = new Users * [*size_of_people - 1];
+			for (int j = 0, k = 0; j < *size_of_people; j++) {
+				if (j != num - 1) {
+					new_people[k] = program[i].getPeople()[j];
+					k++;
+				}
+			}
+			delete[] program[i].getPeople();
+			program[i].setPeople(new_people, *size_of_people);
+		}
+		(*size_of_people)--;
+		break;
+	}
+	}
+}
+
+void edit(Uzond*& program, short index_1, short index_2)
+{
+	system("cls");
+	ShowCursor(1);
+	if (index_1 < 0 || index_2 < 0)
+	{
+		error();
+	}
+	string line;
+	string name = "", surname = " ", Year = " ", Piesel = " ", Sex = " ";
+	cout << "Wstępne dane:" << endl;
+	cout << MANIP << program[index_1].getPeople()[index_2]->Name << " " << MANIP << program[index_1].getPeople()[index_2]->Surname << " " << MANIP << program[index_1].getPeople()[index_2]->Year << " " << MANIP << program[index_1].getPeople()[index_2]->piesel << " " << MANIP << program[index_1].getPeople()[index_2]->sex << " ";
+	cout << endl;
+	bool valid_input = false;
+	cout << "Podaj Name Surname Year Pesel i sex: ";
+	while (!valid_input) {
+
+		string line;
+
+		getline(cin, line);
+		name = line.substr(0, line.find_first_of(";"));
+		line = line.substr(line.find_first_of(";") + 1);
+		surname = line.substr(0, line.find_first_of(";"));
+		line = line.substr(line.find_first_of(";") + 1);
+		Year = line.substr(0, line.find_first_of(";"));
+		line = line.substr(line.find_first_of(";") + 1);
+		Piesel = line.substr(0, line.find_first_of(";"));
+		line = line.substr(line.find_first_of(";") + 1);
+		Sex = line.substr(0, line.find_first_of(";"));
+
+		bool name_is_alpha = true, surname_is_alpha = true, sex_is_alpha = true, Year_is_digit = true, Piesel_is_digit = Piesel.size() == 12;
+		if (line.size() > 1) {
+			for (char c : name)
+				if (!isalpha_r(c)) {
+					name_is_alpha = false;
+					break;
+				}
+			for (char c : surname)
+				if (!isalpha_r(c)) {
+					surname_is_alpha = false;
+					break;
+				}
+			for (char c : Sex)
+				if (!isalpha_r(c)) {
+					sex_is_alpha = false;
+					break;
+				}
+			for (char c : Year) {
+				if (!isdigit_r(c)) {
+					Year_is_digit = false;
+					break;
+				}
+			}
+			for (char c : Piesel)
+				if (!isdigit_r(c)) {
+					Piesel_is_digit = false;
+					break;
+				}
+
+			if (!name_is_alpha || !surname_is_alpha || !sex_is_alpha || !Year_is_digit || !Piesel_is_digit)
+			{
+				error();
+			}
+			else {
+				program[index_1].getPeople()[index_2]->Name = name;
+				program[index_1].getPeople()[index_2]->Surname = surname;
+				program[index_1].getPeople()[index_2]->Year = Year;
+				program[index_1].getPeople()[index_2]->piesel = Piesel;
+				program[index_1].getPeople()[index_2]->sex = Sex;
+				valid_input = true;
+			}
+		}
+	}
+	ShowCursor(0);
+}

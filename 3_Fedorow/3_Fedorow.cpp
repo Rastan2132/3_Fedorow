@@ -28,21 +28,20 @@ int main()
 			add(program, &size, &size_of_peopl, NAMES, SURNAMES, NAMES_of_Uzond);
 			break;
 		case (100):
-			//	program = dell(program, &size, &size_of_peopl);
+			dell(program, &size, &size_of_peopl);
 			break;
 		case (101):
-			/*
-						do {
+		
+			do {
 
-							cout << "wprowadź numer urzendu i numer osoby" << endl;
-							cin >> urz_num >> p_num;
-							if (urz_num > 0 && p_num > 0 && urz_num <= size && p_num <= size_of_peopl)
-								break;
-							error();
+			cout << "wprowadź numer urzendu i numer osoby" << endl;
+				cin >> urz_num >> p_num;
+			if (urz_num > 0 && p_num > 0 && urz_num <= size && p_num <= size_of_peopl)
+				break;
+			error();
 
-						} while (true);
-						program = edit(program, urz_num - 1, p_num - 1);
-						*/
+			} while (true);
+				edit(program, urz_num - 1, p_num - 1);
 			break;
 		case (115):
 			//	sort(program, size, size_of_peopl);
