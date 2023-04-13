@@ -47,7 +47,7 @@ int main()
 				sort(program, size, size_of_peopl);
 			break;
 		case (121):
-			//	find(program, size, size_of_peopl);
+				find(program, size, size_of_peopl);
 			break;
 		}
 	} while (work);

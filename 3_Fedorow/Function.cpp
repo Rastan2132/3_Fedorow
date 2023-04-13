@@ -415,3 +415,158 @@ void sort(Uzond*& program, short size, short size_of_peopl)
 	}
 	}
 }
+
+void find(Uzond*& program, short& size, short& size_of_peopl)
+{
+	if (program == nullptr || size == 0 || size_of_peopl == 0)
+	{
+		error();
+		return;
+	}
+	char* keyword = new char[MAXLINE]; keyword[0] = '\0';
+
+	COORD enter, hat;
+
+	system("cls");
+	cout << " Esc - Wejscie" << endl << endl;
+	cout << "Szukaj: ";
+	enter = getCursorPosition();
+
+	cout << endl << " #   " stru << endl;
+	hat = getCursorPosition();
+
+	COORD temp_pos;
+	short len = 0;
+
+	do
+	{
+		//Вводим ключевое слово для поиска.
+		{
+			int i = 0;
+			do
+			{
+				if (!stredit(keyword, MAXLINE, enter.X, enter.Y, len, false)) return;
+				len = (short)strlen(keyword);
+
+				for (i = 0; i < len; i++)
+				{
+					if (!(isdigit_r(keyword[i]) || isalpha_r(keyword[i]))) break;
+				}
+
+			} while (i != len || len == 0);
+		}
+
+		// Выводим результаты. 
+
+		setCursorPosition(hat.X, hat.Y);
+
+		//Очищаем предыдущие результаты поиска.
+		for (int i = 0; i < size; i++)
+		{
+			temp_pos = getCursorPosition();
+			Clear(temp_pos.X, temp_pos.Y + i);
+		}
+		setCursorPosition(hat.X, hat.Y);
+		system("cls");
+		cout << " Esc - Wejscie" << endl << endl;
+		cout << "Szukaj: ";
+		enter = getCursorPosition();
+
+		cout << endl << " #   " stru << endl;
+		hat = getCursorPosition();
+		//Выводим новые результаты поиска
+		for (short l = 0; l < size; l++)
+		{
+			cout << "Rezultat o " << l + 1 << " linii" << endl;
+			for (short i = 0; i < size_of_peopl; i++)
+			{
+				if (strstr_lower(stringToArrChar(program[l].getPeople()[i]->Name).data(), keyword)
+					|| strstr_lower(stringToArrChar(program[l].getPeople()[i]->Surname).data(), keyword)
+					|| strstr_lower(stringToArrChar(program[l].getPeople()[i]->piesel).data(), keyword)
+					|| strstr_lower(stringToArrChar(program[l].getPeople()[i]->Year).data(), keyword)
+					|| strstr_lower(stringToArrChar(program[l].getPeople()[i]->sex).data(), keyword))
+				{
+					cout << left << setw(3) << i + 1 << "  ";
+					print_find(stringToArrChar(program[l].getPeople()[i]->Name).data(), MAXLINE, keyword, MAXLINE, Red);
+					print_find(stringToArrChar(program[l].getPeople()[i]->Surname).data(), MAXLINE, keyword, MAXLINE, Red);
+					print_find(stringToArrChar(program[l].getPeople()[i]->Year).data(), MAXLINE, keyword, MAXLINE, Red);
+					print_find(stringToArrChar(program[l].getPeople()[i]->piesel).data(), MAXLINE, keyword, MAXLINE, Red);
+					print_find(stringToArrChar(program[l].getPeople()[i]->sex).data(), MAXLINE, keyword, MAXLINE, Red);
+
+					cout << endl;
+				}
+			}
+			cout << endl;
+		}
+	} while (true); //Пока не нажата Esc.
+
+	delete[] keyword; keyword = nullptr;
+}
+void print_find(char* str, short str_size, char* keyword, short key_size, int text, int back)
+{
+	if (str == nullptr || keyword == nullptr) return;
+
+	int str_len = strlen(str);
+	int key_len = strlen(keyword);
+
+	if (str_len > str_size || str_len < 0 || key_len > key_size || key_len < 0) return;
+
+	COORD start, cursor;
+
+	start = getCursorPosition();
+	cout << left << setw(str_size) << str;
+	cursor = getCursorPosition();
+	showcursor(false);
+
+	COLOR DefColor = GetColor();
+	COLOR FindColor;
+
+	FindColor.text = (text == -1) ? DefColor.text : text;
+	FindColor.back = (back == -1) ? DefColor.back : back;
+
+	char* ptr = strstr_lower(str, keyword);
+	short index = 0;
+
+	while (ptr != nullptr)
+	{
+		index = (int)(ptr - str);                    //Считаем позицию слова в строке и 
+		setCursorPosition(start.X + index, start.Y); //переходим к позиции слова.
+
+		// Выводим слово с форматом цвета.
+		SetColor(FindColor);
+		for (int j = 0; j < key_len; j++) cout << str[index + j];
+		SetColor(DefColor);
+
+		//Ищем далее.
+		ptr = strstr_lower(ptr + key_len, keyword);
+	}
+
+	setCursorPosition(cursor.X, cursor.Y);
+	showcursor(true);
+}
+
+char* strstr_lower(char* str_a, char* str_b)
+{
+	/*Поиск подстроки в строке без учета регистра.*/
+
+	if (str_a == nullptr || str_b == nullptr)
+		return nullptr;
+
+
+	for (int i = 0;; i++)
+	{
+		if (str_a[i] == '\0') return nullptr;
+
+		for (int j = 0, k = i;; j++, k++)
+		{
+			if (str_b[j] == '\0') return (str_a + i);
+			if (tolower(str_a[k]) != tolower(str_b[j])) break;
+		}
+	}
+}
+
+vector<char> stringToArrChar(const string& str) {
+	vector<char> char_array(str.begin(), str.end());
+	char_array.push_back('\0');
+	return char_array;
+}

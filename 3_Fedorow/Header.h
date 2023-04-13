@@ -137,7 +137,6 @@ void error();
 Uzond* create(int size, int people_size);
 void initRand(Uzond*& program, short size, short size_of_peopl, vector<string> arr_name, vector<string> arr_suname, vector<string>arr_of_name_urzant);
 void show(Uzond* program, short size, short size_of_peopl);
-//void find(Uzond* program, short size, short size_of_peopl);
 void add(Uzond*& program, short* size, short* size_of_peopl, vector<string> arr_name, vector<string> arr_suname, vector<string>arr_of_name_urzant);
 char* strstr_lower(char* str_a, char* str_b);
 int rand_data(string sex);								/// от 0 до 9 муж. от 10 до 19 жен
@@ -148,7 +147,7 @@ bool isdigit_r(unsigned char a);
 vector<char> stringToArrChar(const string& str);
 void edit(Uzond*& program, short index_1, short index_2);
 void dell(Uzond*& program, short* size, short* size_of_people);
-
+void find(Uzond*& program, short& size, short& size_of_peopl);
 
 COORD getCursorPosition(void);
 void Clear(int x, int y, long cnt = 100);
@@ -159,7 +158,7 @@ COORD getConsoleSize();
 COLOR GetColor();
 WORD GetColorWord();
 void SetColor(COLOR Color);
-//void print_find(char* str, short str_size, char* keyword, short key_size, int text = -1, int back = -1);
+void print_find(char* str, short str_size, char* keyword, short key_size, int text = -1, int back = -1);
 
 
 void DeleteCh(char* str, int& cursor, int& term);
